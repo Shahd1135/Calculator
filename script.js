@@ -58,6 +58,12 @@ function setOperator(op) {
         return;
     }
 
+    if (op === "-" && displayValue === "0") {
+        displayValue = "-";
+        updateDisplay();
+        return;
+    }
+
     if (currentOperator !== null) {
         calculate();
     }
