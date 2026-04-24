@@ -134,4 +134,11 @@ document.addEventListener("keydown", (e) => {
     if (key.toLowerCase() === "c") clearCalculator();
 });
 
+function toggleDarkMode() {
+    document.body.classList.toggle("dark");
+
+    const btn = document.getElementById("darkToggle");
+    btn.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+}
+
 updateDisplay();
