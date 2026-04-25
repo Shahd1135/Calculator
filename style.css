@@ -159,3 +159,26 @@ body.dark button:nth-child(16) {
   background: #3f6b4a;
   color: #fff;
 }
+.display {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  height: 80px;
+  padding: 12px 12px 10px;
+
+  gap: 4px;
+}
+
+.expression {
+  font-size: 14px;
+  opacity: 0.6;
+  text-align: right;
+  margin-bottom: 2px;
+}
+
+.result {
+  font-size: 30px;
+  text-align: right;
+  line-height: 1;
+}

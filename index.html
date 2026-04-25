@@ -13,7 +13,11 @@
 <button id="darkToggle" onclick="toggleDarkMode()" class="dark-btn">🌙</button>
 
 <div class="calculator">
-    <input type="text" id="display" class="display" value="0" disabled>
+
+    <div id="display" class="display">
+        <div id="expression" class="expression"></div>
+        <div id="result" class="result">0</div>
+    </div>
 
     <div class="buttons">
         <button onclick="clearCalculator()">C</button>

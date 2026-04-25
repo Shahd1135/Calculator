@@ -21,18 +21,32 @@ function operate(op, a, b) {
 let firstNumber = null;
 let currentOperator = null;
 let displayValue = "0";
+let expression = "";
 let shouldResetDisplay = false;
 
 function updateDisplay() {
-    document.getElementById("display").value = displayValue;
+    document.getElementById("result").textContent = displayValue;
+    document.getElementById("expression").textContent = expression;
 }
 
 function inputNumber(num) {
-    if (displayValue === "0" || shouldResetDisplay) {
+    if (shouldResetDisplay) {
         displayValue = num;
         shouldResetDisplay = false;
+
+        if (currentOperator === null) {
+            expression = num;
+        } else {
+            expression += num;
+        }
     } else {
-        displayValue += num;
+        if (displayValue === "0") {
+            displayValue = num;
+            expression = num;
+        } else {
+            displayValue += num;
+            expression += num;
+        }
     }
     updateDisplay();
 }
@@ -41,36 +55,60 @@ function inputDecimal() {
     if (shouldResetDisplay) {
         displayValue = "0.";
         shouldResetDisplay = false;
+
+        if (currentOperator === null) {
+            expression = "0.";
+        } else {
+            expression += "0.";
+        }
+
         updateDisplay();
         return;
     }
 
     if (!displayValue.includes(".")) {
         displayValue += ".";
+        expression += ".";
     }
 
     updateDisplay();
 }
 
 function setOperator(op) {
+    if (shouldResetDisplay && currentOperator === null) {
+        expression = displayValue + " " + op + " ";
+        currentOperator = op;
+        shouldResetDisplay = true;
+        updateDisplay();
+        return;
+    }
+
     if (shouldResetDisplay && currentOperator !== null) {
         currentOperator = op;
+        expression = expression.slice(0, -1) + op;
+        updateDisplay();
         return;
     }
 
     if (op === "-" && displayValue === "0") {
         displayValue = "-";
+        expression = "-";
         updateDisplay();
         return;
     }
 
     if (currentOperator !== null) {
         calculate();
+        expression = displayValue + " " + op + " ";
+    } else {
+        expression += " " + op + " ";
     }
 
     firstNumber = displayValue;
     currentOperator = op;
     shouldResetDisplay = true;
+
+    updateDisplay();
 }
 
 function calculate() {
@@ -82,6 +120,7 @@ function calculate() {
 
     if (typeof result === "string") {
         displayValue = result;
+        expression = "";
         updateDisplay();
         resetCalculator();
         return;
@@ -100,6 +139,7 @@ function calculate() {
 
 function clearCalculator() {
     displayValue = "0";
+    expression = "";
     firstNumber = null;
     currentOperator = null;
     shouldResetDisplay = false;
@@ -121,6 +161,7 @@ function backspace() {
         displayValue = displayValue.slice(0, -1);
     }
 
+    expression = expression.slice(0, -1);
     updateDisplay();
 }
 
@@ -128,21 +169,15 @@ document.addEventListener("keydown", (e) => {
     const key = e.key;
 
     if (!isNaN(key)) inputNumber(key);
-
     if (key === ".") inputDecimal();
-
     if (["+", "-", "*", "/"].includes(key)) setOperator(key);
-
     if (key === "Enter" || key === "=") calculate();
-
     if (key === "Backspace") backspace();
-
     if (key.toLowerCase() === "c") clearCalculator();
 });
 
 function toggleDarkMode() {
     document.body.classList.toggle("dark");
-
     const btn = document.getElementById("darkToggle");
     btn.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
 }
