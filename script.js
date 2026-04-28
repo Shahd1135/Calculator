@@ -24,12 +24,20 @@ let displayValue = "0";
 let expression = "";
 let shouldResetDisplay = false;
 
+function isError() {
+    return displayValue === "Nice try (no /0)";
+}
+
 function updateDisplay() {
     document.getElementById("result").textContent = displayValue;
     document.getElementById("expression").textContent = expression;
 }
 
 function inputNumber(num) {
+    if (isError()) {
+        clearCalculator();
+    }
+
     if (shouldResetDisplay) {
         displayValue = num;
         shouldResetDisplay = false;
@@ -52,6 +60,10 @@ function inputNumber(num) {
 }
 
 function inputDecimal() {
+    if (isError()) {
+        clearCalculator();
+    }
+
     if (shouldResetDisplay) {
         displayValue = "0.";
         shouldResetDisplay = false;
@@ -75,6 +87,10 @@ function inputDecimal() {
 }
 
 function setOperator(op) {
+    if (isError()) {
+        clearCalculator();
+    }
+
     if (shouldResetDisplay && currentOperator === null) {
         expression = displayValue + " " + op + " ";
         currentOperator = op;
@@ -96,12 +112,15 @@ function setOperator(op) {
         updateDisplay();
         return;
     }
-
     if (currentOperator !== null) {
         calculate();
         expression = displayValue + " " + op + " ";
     } else {
-        expression += " " + op + " ";
+        if (expression === "") {
+            expression = displayValue + " " + op + " ";
+        } else {
+            expression += " " + op + " ";
+        }
     }
 
     firstNumber = displayValue;
@@ -153,7 +172,7 @@ function resetCalculator() {
 }
 
 function backspace() {
-    if (shouldResetDisplay) return;
+    if (shouldResetDisplay || isError()) return;
 
     if (displayValue.length === 1) {
         displayValue = "0";

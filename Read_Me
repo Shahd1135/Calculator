@@ -1,0 +1,35 @@
+# Calculator
+
+## Overview
+
+This project is a basic calculator built using HTML, CSS, and JavaScript. It supports standard arithmetic operations and mimics the behavior of a simple handheld calculator. The focus of the project is on implementing the core logic manually without relying on built-in evaluation methods.
+
+## Features
+
+* Addition, subtraction, multiplication, and division
+* Chained operations (e.g., `12 + 7 - 5`)
+* Decimal number support with validation (prevents multiple decimals)
+* Backspace functionality to correct input
+* Clear button to reset the calculator
+* Keyboard input support
+* Divide-by-zero handling with an error message
+* Result reuse for continued calculations (e.g., `5 + 5 = 10`, then `10 + 3`)
+* Dark mode toggle for UI enhancement
+
+## How It Works
+
+The calculator is built around a state-based logic system. It uses variables such as:
+
+* `displayValue` to track what is shown on the screen
+* `firstNumber` to store the first operand
+* `currentOperator` to store the selected operation
+* `shouldResetDisplay` to control when the display should be cleared for new input
+
+Functions like `inputNumber()`, `setOperator()`, and `calculate()` work together to process user input step-by-step. The `operate()` function determines which arithmetic operation to perform by calling the appropriate function (`add`, `subtract`, `multiply`, or `divide`).
+
+
+## Technologies Used
+
+* HTML for structure
+* CSS for styling and layout
+* JavaScript for logic and interactivity
